@@ -37,10 +37,8 @@ exports.generateCertificate = async (req, res) => {
       year: 'numeric'
     });
 
-    // Chemin vers votre logo
     const logoPath = path.join(__dirname, '../logo.png');
 
-    // Insérer le logo en haut à gauche avec une taille de 100x100 points
     doc.image(logoPath, 50, 50, { width: 100 });
     doc.moveDown();
     doc.moveDown();
