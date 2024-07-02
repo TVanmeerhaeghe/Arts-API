@@ -62,3 +62,28 @@ exports.deleteCertificate = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllCertificates = async (req, res) => {
+  try {
+    const certificates = await Certificate.findAll();
+    res.json(certificates);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getCertificateById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const certificate = await Certificate.findById(id);
+
+    if (!certificate) {
+      return res.status(404).json({ error: "Certificate not found" });
+    }
+
+    res.json(certificate);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
