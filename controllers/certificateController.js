@@ -30,17 +30,23 @@ exports.generateCertificate = async (req, res) => {
         .end(pdfData);
     });
 
-    doc.fontSize(25).text("Certificate of Authenticity", { align: "center" });
+    doc.fontSize(25).text("Certificat d'authenticité", { align: "center", bold: true });
     doc.moveDown();
-    doc
-      .fontSize(18)
-      .text(`This is to certify that the painting "${painting.title}"`);
-    doc
-      .fontSize(16)
-      .text(
-        `by ${client.firstname} ${client.lastname} is an original artwork.`
-      );
+
+    doc.fontSize(18)
+        .text(`Ceci certifie que la peinture "${painting.title}"`, { align: "left" });
+    doc.moveDown();
+
+    doc.fontSize(16)
+        .text(`Description: ${painting.description}`, { align: "left" })
+        .text(`Dimensions: ${painting.width} x ${painting.height} cm`, { align: "left" });
+    doc.moveDown();
+
+    doc.fontSize(16)
+        .text(`Cette œuvre est bien authentique.`);
+
     doc.end();
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
