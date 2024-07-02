@@ -1,5 +1,4 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const Client = require("../models/clientModel");
 
 exports.register = async (req, res) => {
@@ -18,10 +17,11 @@ exports.register = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const clientId = await Client.create({
+    await Client.create({
       firstname,
       lastname,
       email,
+      password: hashedPassword,
       adresse,
       complement,
       town,
@@ -29,8 +29,7 @@ exports.register = async (req, res) => {
       phone,
       role,
     });
-    const token = jwt.sign({ id: clientId, role }, process.env.JWT_SECRET);
-    res.json({ token });
+    res.status(201).json({ message: "Client registered successfully" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
