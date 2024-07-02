@@ -38,6 +38,7 @@ exports.generateCertificate = async (req, res) => {
     });
 
     const logoPath = path.join(__dirname, '../logo.png');
+    const signaturePath = path.join(__dirname, '../signature.png');
 
     doc.image(logoPath, 50, 50, { width: 100 });
     doc.moveDown();
@@ -53,17 +54,16 @@ exports.generateCertificate = async (req, res) => {
     doc.moveDown();
 
     doc.fontSize(18)
-        .text(`Ceci certifie que la peinture "${painting.title}"`, { align: "left" });
+        .text(`Ceci certifie que la peinture "${painting.title}" est bien authentique.`, { align: "left" });
     doc.moveDown();
 
     doc.fontSize(16)
         .text(`Description: ${painting.description}`, { align: "left" })
         .text(`Dimensions: ${painting.width} x ${painting.height} cm`, { align: "left" });
     doc.moveDown();
-
-    doc.fontSize(16)
-        .text(`Cette œuvre est bien authentique.`);
     doc.moveDown();
+    doc.image(signaturePath, 450, 450, { width: 100 });
+
     doc.fontSize(16)
         .text(`Date d'authentification :  ${currentDate}`);
     doc.end();
