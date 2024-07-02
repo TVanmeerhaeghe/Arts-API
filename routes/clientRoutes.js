@@ -15,13 +15,13 @@ router.get(
   clientController.getClientById
 );
 router.put(
-  "create/:id",
+  "/update/:id",
   authenticateToken,
   authorizeAdminOrSelf,
   clientController.updateClient
 );
 router.delete(
-  "delete/:id",
+  "/delete/:id",
   authenticateToken,
   authorizeAdminOrSelf,
   clientController.deleteClient

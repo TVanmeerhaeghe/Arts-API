@@ -42,8 +42,8 @@ class Client {
   static async update(id, data) {
     await db.execute(
       `UPDATE clients 
-            SET firstname = ?, lastname = ?, email = ?, adresse = ?, complement = ?, town = ?, postalCode = ?, phone = ?, role = ? 
-            WHERE id = ?`,
+        SET firstname = ?, lastname = ?, email = ?, adresse = ?, complement = ?, town = ?, postalCode = ?, phone = ?, role = ? 
+        WHERE id = ?`,
       [
         data.firstname,
         data.lastname,

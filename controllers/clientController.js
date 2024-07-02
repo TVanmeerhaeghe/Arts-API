@@ -24,7 +24,26 @@ exports.getClientById = async (req, res) => {
 
 exports.updateClient = async (req, res) => {
   try {
-    await Client.update(req.params.id, req.body);
+    const clientId = req.params.id;
+    const existingClient = await Client.findById(clientId);
+
+    if (!existingClient) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    const updatedData = {
+      firstname: req.body.firstname || existingClient.firstname,
+      lastname: req.body.lastname || existingClient.lastname,
+      email: req.body.email || existingClient.email,
+      adresse: req.body.adresse || existingClient.adresse,
+      complement: req.body.complement || existingClient.complement,
+      town: req.body.town || existingClient.town,
+      postalCode: req.body.postalCode || existingClient.postalCode,
+      phone: req.body.phone || existingClient.phone,
+      role: req.body.role || existingClient.role,
+    };
+
+    await Client.update(clientId, updatedData);
     res.json({ message: "Client updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
