@@ -1,4 +1,4 @@
-const Painting = require("../models/Painting");
+const Painting = require("../models/paintingModel");
 
 exports.getAllPaintings = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ exports.createPainting = async (req, res) => {
     const data = {
       ...req.body,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
     const id = await Painting.create(data);
     res.status(201).json({ id });
@@ -40,7 +40,7 @@ exports.updatePainting = async (req, res) => {
   try {
     const data = {
       ...req.body,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
     await Painting.update(req.params.id, data);
     res.json({ message: "Painting updated successfully" });
