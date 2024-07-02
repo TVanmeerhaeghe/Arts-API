@@ -2,6 +2,7 @@ const PDFDocument = require("pdfkit");
 const Client = require("../models/clientModel");
 const Painting = require("../models/paintingModel");
 const Certificate = require("../models/certificateModel");
+const path = require('path');
 
 exports.generateCertificate = async (req, res) => {
   const { clientId, paintingId } = req.body;
@@ -22,13 +23,33 @@ exports.generateCertificate = async (req, res) => {
     doc.on("end", () => {
       let pdfData = Buffer.concat(buffers);
       res
-        .writeHead(200, {
-          "Content-Length": Buffer.byteLength(pdfData),
-          "Content-Type": "application/pdf",
-          "Content-Disposition": "attachment;filename=certificate.pdf",
-        })
-        .end(pdfData);
+          .writeHead(200, {
+            "Content-Length": Buffer.byteLength(pdfData),
+            "Content-Type": "application/pdf",
+            "Content-Disposition": "attachment;filename=certificate.pdf",
+          })
+          .end(pdfData);
     });
+
+    const currentDate = new Date().toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+
+    // Chemin vers votre logo
+    const logoPath = path.join(__dirname, '../logo.png');
+
+    // Insérer le logo en haut à gauche avec une taille de 100x100 points
+    doc.image(logoPath, 50, 50, { width: 100 });
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
+    doc.moveDown();
 
     doc.fontSize(25).text("Certificat d'authenticité", { align: "center", bold: true });
     doc.moveDown();
@@ -44,13 +65,16 @@ exports.generateCertificate = async (req, res) => {
 
     doc.fontSize(16)
         .text(`Cette œuvre est bien authentique.`);
-
+    doc.moveDown();
+    doc.fontSize(16)
+        .text(`Date d'authentification :  ${currentDate}`);
     doc.end();
 
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 exports.deleteCertificate = async (req, res) => {
   const { id } = req.params;
