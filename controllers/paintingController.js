@@ -2,7 +2,7 @@ const Painting = require("../models/paintingModel");
 
 exports.getAllPaintings = async (req, res) => {
   try {
-    const [paintings] = await db.execute("SELECT * FROM paintings");
+    const paintings = await Painting.findAll();
     res.json(paintings);
   } catch (err) {
     res.status(500).json({ error: err.message });
