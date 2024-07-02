@@ -34,6 +34,11 @@ class Client {
     return rows[0];
   }
 
+  static async findAll() {
+    const [rows] = await db.execute("SELECT * FROM clients");
+    return rows;
+  }
+
   static async update(id, data) {
     await db.execute(
       `UPDATE clients 
