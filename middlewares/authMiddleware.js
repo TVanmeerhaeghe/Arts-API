@@ -20,7 +20,6 @@ const authenticateToken = (req, res, next) => {
 
 const authorizeAdminOrSelf = async (req, res, next) => {
   const clientId = req.params.id;
-  console.log("User role:", req.user.role);
   if (req.user.role === "admin" || req.user.id == clientId) {
     next();
   } else {
