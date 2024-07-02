@@ -30,7 +30,7 @@ exports.createPainting = async (req, res) => {
       updatedAt: new Date(),
     };
     const id = await Painting.create(data);
-    res.status(201).json({ id });
+    res.status(201).json({ message: "Painting created successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
