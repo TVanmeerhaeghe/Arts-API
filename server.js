@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const paintingRoutes = require("./routes/paintingRoutes");
@@ -9,6 +10,8 @@ const orderRoutes = require("./routes/orderRoutes");
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
