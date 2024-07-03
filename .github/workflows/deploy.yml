@@ -1,0 +1,25 @@
+name: Deploy on Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run deployment script
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          scp -i private_key -o StrictHostKeyChecking=no ./scripts/deploy.sh $SSH_USER@$SSH_HOST:/api_panelart/webhook/scripts/
+          ssh -i private_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "bash /api_panelart/webhook/scripts/deploy.sh"
