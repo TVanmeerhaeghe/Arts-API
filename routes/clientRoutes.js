@@ -3,11 +3,17 @@ const clientController = require("../controllers/clientController");
 const {
   authenticateToken,
   authorizeAdminOrSelf,
+  authorizeAdmin,
 } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", authenticateToken, clientController.getAllClients);
+router.get(
+  "/",
+  authenticateToken,
+  authorizeAdmin,
+  clientController.getAllClients
+);
 router.get(
   "/:id",
   authenticateToken,

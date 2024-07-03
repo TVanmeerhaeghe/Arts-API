@@ -3,6 +3,7 @@ const certificateController = require("../controllers/certificateController");
 const {
   authenticateToken,
   authorizeAdminOrSelf,
+  authorizeAdmin,
 } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
@@ -10,7 +11,7 @@ const router = express.Router();
 router.get(
   "/",
   authenticateToken,
-  authorizeAdminOrSelf,
+  authorizeAdmin,
   certificateController.getAllCertificates
 );
 router.get(
@@ -22,13 +23,13 @@ router.get(
 router.post(
   "/generate",
   authenticateToken,
-  authorizeAdminOrSelf,
+  authorizeAdmin,
   certificateController.generateCertificate
 );
 router.delete(
   "/delete/:id",
   authenticateToken,
-  authorizeAdminOrSelf,
+  authorizeAdmin,
   certificateController.deleteCertificate
 );
 
