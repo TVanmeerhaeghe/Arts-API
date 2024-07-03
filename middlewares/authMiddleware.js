@@ -27,4 +27,12 @@ const authorizeAdminOrSelf = async (req, res, next) => {
   }
 };
 
-module.exports = { authenticateToken, authorizeAdminOrSelf };
+const authorizeAdmin = (req, res, next) => {
+  if (req.user.role === "admin") {
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+};
+
+module.exports = { authenticateToken, authorizeAdminOrSelf, authorizeAdmin };
