@@ -35,7 +35,8 @@ jobs:
           ssh -i private_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "
             cd /api_panelart &&
             git stash &&
-            git pull &&
+            git branch --set-upstream-to=origin/main main &&
+            git pull origin main &&
             git stash pop
           "
           rm private_key
