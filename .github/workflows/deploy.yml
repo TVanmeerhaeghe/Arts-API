@@ -14,10 +14,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Configure git safe directory
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
           ssh -i private_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "git config --global --add safe.directory /api_panelart"
+          rm private_key
 
       - name: Run deployment script
         env:
@@ -28,3 +33,4 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
           ssh -i private_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "bash /api_panelart/webhook/scripts/deploy.sh"
+          rm private_key
