@@ -23,6 +23,7 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
-          chmod 600 private_key
+          chmod 600 private_key 
+          cd /
           scp -i private_key -o StrictHostKeyChecking=no api_panelart/webhook/scripts/deploy.sh $SSH_USER@$SSH_HOST:/api_panelart/webhook/scripts/
           ssh -i private_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "bash /api_panelart/webhook/scripts/deploy.sh"
