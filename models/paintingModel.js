@@ -3,7 +3,7 @@ const db = require("../db");
 class Painting {
   static async create(data) {
     const [result] = await db.execute(
-      "INSERT INTO paintings (title, description, width, height, price, quantity, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO paintings (title, description, width, height, price, quantity, createdAt, updatedAt, imagePath) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         data.title,
         data.description,
@@ -13,6 +13,7 @@ class Painting {
         data.quantity,
         data.createdAt,
         data.updatedAt,
+        data.imagePath,
       ]
     );
     return result.insertId;
@@ -32,7 +33,7 @@ class Painting {
 
   static async update(id, data) {
     await db.execute(
-      "UPDATE paintings SET title = ?, description = ?, width = ?, height = ?, price = ?, quantity = ?, updatedAt = ? WHERE id = ?",
+      "UPDATE paintings SET title = ?, description = ?, width = ?, height = ?, price = ?, quantity = ?, updatedAt = ?, imagePath = ? WHERE id = ?",
       [
         data.title,
         data.description,
@@ -41,6 +42,7 @@ class Painting {
         data.price,
         data.quantity,
         data.updatedAt,
+        data.imagePath,
         id,
       ]
     );
