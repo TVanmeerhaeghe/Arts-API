@@ -12,7 +12,3 @@ const pool = mysql.createPool({
 });
 
 module.exports = pool.promise();
-
-//Test2 github
-//Test2
-//Test3
