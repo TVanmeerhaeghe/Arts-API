@@ -57,8 +57,12 @@ exports.updatePainting = async (req, res) => {
     const data = {
       ...req.body,
       updatedAt: new Date(),
-      imagePath: req.file ? req.file.path : req.body.imagePath, // Gérer nouvelle image ou conserver l'ancienne
     };
+
+    if (req.file) {
+      data.imagePath = req.file.path;
+    }
+
     await Painting.update(req.params.id, data);
     res.json({ message: "Painting updated successfully" });
   } catch (err) {

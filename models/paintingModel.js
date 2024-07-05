@@ -32,20 +32,24 @@ class Painting {
     }
 
     static async update(id, data) {
-        await db.execute(
-            "UPDATE paintings SET title = ?, description = ?, width = ?, height = ?, price = ?, quantity = ?, imagePath = ?, updatedAt = ? WHERE id = ?",
-            [
-                data.title,
-                data.description,
-                data.width,
-                data.height,
-                data.price,
-                data.quantity,
-                data.imagePath,
-                data.updatedAt,
-                id,
-            ]
-        );
+        const fields = [
+            data.title,
+            data.description,
+            data.width,
+            data.height,
+            data.price,
+            data.quantity,
+            data.updatedAt,
+            data.imagePath,
+            id,
+        ];
+
+        const query = `
+            UPDATE paintings 
+            SET title = ?, description = ?, width = ?, height = ?, price = ?, quantity = ?, updatedAt = ?, imagePath = ? 
+            WHERE id = ?`;
+
+        await db.execute(query, fields);
     }
 
     static async delete(id) {
