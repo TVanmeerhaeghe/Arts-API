@@ -1,5 +1,6 @@
 const express = require("express");
 const paintingController = require("../controllers/paintingController");
+const upload = require('../middlewares/upload');  // Assurez-vous que ce chemin est correct
 const {
   authenticateToken,
   authorizeAdminOrSelf,
@@ -14,12 +15,14 @@ router.post(
   "/create",
   authenticateToken,
   authorizeAdmin,
+  upload,
   paintingController.createPainting
 );
 router.put(
   "/update/:id",
   authenticateToken,
   authorizeAdmin,
+  upload,
   paintingController.updatePainting
 );
 router.delete(

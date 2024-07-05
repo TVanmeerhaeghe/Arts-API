@@ -41,6 +41,7 @@ exports.createPainting = async (req, res) => {
   try {
     const data = {
       ...req.body,
+      imagePath: req.file ? req.file.path : null, // Inclure le chemin de l'image
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -56,7 +57,7 @@ exports.updatePainting = async (req, res) => {
     const data = {
       ...req.body,
       updatedAt: new Date(),
-      imagePath: req.file ? req.file.path : req.body.imagePath,
+      imagePath: req.file ? req.file.path : req.body.imagePath, // Gérer nouvelle image ou conserver l'ancienne
     };
     await Painting.update(req.params.id, data);
     res.json({ message: "Painting updated successfully" });
