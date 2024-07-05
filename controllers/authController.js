@@ -47,8 +47,15 @@ exports.login = async (req, res) => {
     const client = await Client.findByEmail(email);
     if (client && (await bcrypt.compare(password, client.password))) {
       const token = jwt.sign(
-        { id: client.id, role: client.role },
-        process.env.JWT_SECRET
+        {
+          id: client.id,
+          role: client.role,
+          firstname: client.firstname,
+          lastname: client.lastname,
+          email: client.email,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "128h" }
       );
       res.json({ token });
     } else {

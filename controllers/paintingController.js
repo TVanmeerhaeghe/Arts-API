@@ -1,4 +1,19 @@
 const Painting = require("../models/paintingModel");
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
+
+exports.upload = upload.single("image");
 
 exports.getAllPaintings = async (req, res) => {
   try {
@@ -31,7 +46,7 @@ exports.createPainting = async (req, res) => {
       updatedAt: new Date(),
     };
     const id = await Painting.create(data);
-    res.status(201).json({ message: "Painting created successfully", id: id });
+    res.status(201).json({ message: "Painting created successfully", id });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -41,8 +56,8 @@ exports.updatePainting = async (req, res) => {
   try {
     const data = {
       ...req.body,
-      imagePath: req.file ? req.file.path : null, // Mise à jour du chemin de l'image
       updatedAt: new Date(),
+      imagePath: req.file ? req.file.path : req.body.imagePath, // Gérer nouvelle image ou conserver l'ancienne
     };
     await Painting.update(req.params.id, data);
     res.json({ message: "Painting updated successfully" });
